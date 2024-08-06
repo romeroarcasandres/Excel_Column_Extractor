@@ -7,11 +7,11 @@ The script prompts the user to choose the desired columns and the output format,
 It is particularly useful for quickly extracting subsets of data for further analysis or processing.
 
 ## Requirements
-Python 3
-pandas library (for data manipulation)
-tkinter library (for user interface)
-os library (for file path operations)
-string library (for handling string operations)
+* Python 3
+* pandas library (for data manipulation)
+* tkinter library (for user interface)
+* os library (for file path operations)
+* string library (for handling string operations)
 
 ## Files
 column_extractor.py
@@ -21,8 +21,8 @@ column_extractor.py
 2. A file dialog will prompt you to select a directory containing the Excel (.xlsx) file.
 3. A dialog box will prompt you to select the desired columns by specifying their letters (e.g., A, B, Z, AB, CD).
 4. Another dialog box will prompt you to select the desired output format:
- *  "txt" for a tab-separated text file.
- *  "xlsx" for a new Excel file.
+   *  "txt" for a tab-separated text file.
+   *  "xlsx" for a new Excel file.
 5. The output file will be saved in the same directory as the input file, with an appended "_columns" to the original file name.
 
 ## Important Notes
