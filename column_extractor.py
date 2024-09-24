@@ -34,13 +34,13 @@ def main():
 
     # Step 2: Prompt the user to indicate the columns he wants to export
     columns_input = simpledialog.askstring("Columns Input", 
-                                           "Enter the columns to export, separated by commas (A,B,C...):")
+                                           "Enter the columns to export in groups, separated by semicolons (A,B,E;C,D,F...):")
     if not columns_input:
         messagebox.showerror("Error", "No columns specified. Exiting.")
         return
 
-    columns_letters = [col.strip() for col in columns_input.split(',')]
-    columns_indices = [excel_col_to_num(col) for col in columns_letters]
+    # Split the input by ';' to get groups of columns
+    column_groups = [group.strip() for group in columns_input.split(';')]
 
     # Step 3: Prompt the user to select the output format
     output_format = simpledialog.askstring("Output Format", 
@@ -54,25 +54,31 @@ def main():
         # Read the Excel file
         df = pd.read_excel(excel_file)
 
-        # Convert column indices to column names
-        columns_names = df.columns[columns_indices]
+        # Process each group of columns
+        for i, group in enumerate(column_groups, start=1):
+            columns_letters = [col.strip() for col in group.split(',')]
+            columns_indices = [excel_col_to_num(col) for col in columns_letters]
 
-        # Generate the output file with the specified columns
-        output_df = df[columns_names]
-        output_base = os.path.join(directory, base_name + "_columns")
-        
-        if output_format == 'txt':
-            output_file = output_base + ".txt"
-            output_df.to_csv(output_file, sep='\t', index=False)
-        elif output_format == 'xlsx':
-            output_file = output_base + ".xlsx"
-            output_df.to_excel(output_file, index=False)
-        else:
-            messagebox.showerror("Error", "Invalid format specified. Exiting.")
-            return
+            # Convert column indices to column names
+            columns_names = df.columns[columns_indices]
 
-        messagebox.showinfo("Success", f"Output file generated: {output_file}")
-        
+            # Generate the output file with the specified columns
+            output_df = df[columns_names]
+            
+            # Create a unique filename for this group of columns
+            output_suffix = "_".join(columns_letters)
+            output_base = os.path.join(directory, f"{base_name}_columns_{output_suffix}")
+            
+            if output_format == 'txt':
+                output_file = output_base + ".txt"
+                output_df.to_csv(output_file, sep='\t', index=False)
+            elif output_format == 'xlsx':
+                output_file = output_base + ".xlsx"
+                output_df.to_excel(output_file, index=False)
+
+            # Inform the user about each successful export
+            messagebox.showinfo("Success", f"Output file generated: {output_file}")
+
     except IndexError:
         messagebox.showerror("Error", "The specified column is out of range. Please enter a column that exists in the Excel file.")
     except KeyError as e:
