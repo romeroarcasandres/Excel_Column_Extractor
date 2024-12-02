@@ -33,4 +33,4 @@ column_extractor.py
 * The output format choice must be either 'txt' or 'xlsx'; any other format will result in an error.
 
 ## License
-This project is governed by the GNU Affero General Public License v3.0. For comprehensive details, kindly refer to the LICENSE file included with this project.
+This project is governed by the CC BY-NC 4.0 license. For comprehensive details, kindly refer to the LICENSE file included with this project.
